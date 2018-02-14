@@ -1,32 +1,30 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Nikolai
-  Date: 14.02.2018
-  Time: 15:51
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Notes</title>
+    <meta charset="utf-8" />
+    <title>Список заметок</title>
+    <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/resources/css/style.css'/>" />
 </head>
 <body>
-<table>
-    <tr>
-        <th>Название</th>
-        <th>Заметка</th>
-        <th>Дата</th>
-        <th>Выполнено</th>
-    </tr>
+<ol>
+    <li><a href="/">Пункт #1</a></li>
+    <li><a href="/">Пункт #2</a></li>
+    <li><a href="/">Пункт #3</a></li>
+    <li><a href="/">Пункт #4</a></li>
+    <li><strong>Пункт #5</strong></li>
+</ol>
+<ul>
     <c:forEach var="note" items="${notesList}">
-        <tr>
-            <td>${note.title}</td>
-            <td>${note.text}</td>
-            <td>${note.createdDate}</td>
-            <td>${note.done}</td>
-        </tr>
+    <li>
+        <a href="#">
+            <h2>${note.title}</h2>
+            <p>${note.text}</p>
+        </a>
+    </li>
     </c:forEach>
-</table>
+</ul>
 </body>
 </html>
