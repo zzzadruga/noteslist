@@ -19,7 +19,7 @@
 <ul>
     <c:forEach var="note" items="${notesList}">
     <li>
-        <a href="#">
+        <a href="<c:url value='/notes/edit/${note.id}'/>">
             <h2>${note.title}</h2>
             <p>${note.text}</p>
         </a>
