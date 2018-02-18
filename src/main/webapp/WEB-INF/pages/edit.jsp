@@ -12,11 +12,12 @@
     <title>Редактировать заметку</title>
 </head>
 <body>
-<form:form modelAttribute="noteModel" method="post" action="#"  accept-charset="utf-8">
+<form:form modelAttribute="noteModel" method="post" action="${pageContext.request.contextPath}/notes/addNote"  accept-charset="utf-8">
+    <form:input path="id" placeholder="ID" type="hidden"/><br>
     <form:input path="title" placeholder="Название" type="text"/><br>
     <form:input path="createdDate" placeholder="Дата" type="text"/><br>
     <form:input path="done" placeholder="Выполнено" type="text"/><br>
-    <form:textarea path="text" placeholder="Описание" type="text" maxlength="255"></form:textarea><br>
+    <form:textarea path="text" placeholder="Описание" type="text"></form:textarea><br>
     <button>Обновить</button>
 </form:form>
 </body>
