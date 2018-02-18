@@ -26,6 +26,15 @@ public class NoteController {
                             Model model){
         Boolean done = stringDone.isEmpty() ? null : stringDone.equals("true");
         Page<Note> page = noteService.getPage(pageNumber - 1, done);
+        int current = page.getNumber() + 1;
+        int begin = Math.max(1, current - 5);
+        int end = Math.min(begin + 10, page.getTotalPages());
+        int totalPages = page.getTotalPages();
+        model.addAttribute("beginIndex", begin);
+        model.addAttribute("endIndex", end);
+        model.addAttribute("currentIndex", current);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("stringDone", stringDone);
         model.addAttribute("notesList", page.getContent());
         return "notes";
     }
