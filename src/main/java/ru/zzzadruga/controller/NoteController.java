@@ -29,18 +29,16 @@ public class NoteController {
     @RequestMapping(value = "/edit/{id}")
     public String editBook(@PathVariable("id") int id, Model model) {
         model.addAttribute("noteModel", noteService.getNoteById(id));
-        System.out.println(noteService.getNoteById(id));
         return "edit";
     }
     @RequestMapping(value = "/addNote", method = RequestMethod.POST)
     public String addBook(@ModelAttribute("noteModel") Note note) {
-        System.out.println(note);
         noteService.save(note);
         return "redirect:/notes/list";
     }
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
