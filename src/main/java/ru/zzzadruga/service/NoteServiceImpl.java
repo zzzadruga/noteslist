@@ -21,9 +21,13 @@ public class NoteServiceImpl implements NoteService {
 
     public void remove(long id) { noteRepository.delete(id); }
 
-    public Page<Note> getPage(int pageNumber, String searchString) {
+    public Page<Note> getPage(int pageNumber, Boolean done) {
         PageRequest request = new PageRequest(pageNumber, PAGESIZE);
-        Page<Note> page = (searchString != null ? noteRepository.findNoteByTitleLikeOrTextLike("%" + searchString + "%", "%" + searchString + "%", request) : noteRepository.findAll(request));
+        Page<Note> page = (done == null ?
+                noteRepository.findAll(request) :
+                (done ?
+                        noteRepository.findNoteByDoneIsTrue(request) :
+                        noteRepository.findNoteByDoneIsFalse(request)));
         return page;
     }
 }

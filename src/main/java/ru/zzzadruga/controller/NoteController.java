@@ -21,8 +21,11 @@ public class NoteController {
     private NoteService noteService;
 
     @RequestMapping(value = {"/", "/list"}, method = RequestMethod.GET)
-    public String notesList(Model model){
-        Page<Note> page = noteService.getPage(0, null);
+    public String notesList(@RequestParam(name = "p", defaultValue = "1") int pageNumber,
+                            @RequestParam(name = "done", defaultValue = "") String stringDone,
+                            Model model){
+        Boolean done = stringDone.isEmpty() ? null : stringDone.equals("true");
+        Page<Note> page = noteService.getPage(pageNumber - 1, done);
         model.addAttribute("notesList", page.getContent());
         return "notes";
     }

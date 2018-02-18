@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ru.zzzadruga.model.Note;
 
 public interface NoteRepository extends JpaRepository<Note, Long>{
-    Page<Note> findNoteByTitleLikeOrTextLike(String searchTitleString, String searchTextString, Pageable pageable);
+    Page<Note> findNoteByDoneIsTrue(Pageable pageable);
+    Page<Note> findNoteByDoneIsFalse(Pageable pageable);
 }
