@@ -1,15 +1,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<c:if test="${empty stringDone}">
-    <c:set var="prefix" value=""/>
+<c:set var="stringDone" value=""/>
+<c:if test="${!empty done}">
+    <c:set var="stringDone" value="&done=${done}"/>
 </c:if>
-<c:if test="${!empty stringDone}">
-    <c:set var="prefix" value="&done="/>
+<c:set var="stringSort" value=""/>
+<c:if test="${sort}">
+    <c:set var="stringSort" value="&sort=true"/>
 </c:if>
-<c:url var="firstUrl" value="/notes/list?p=1${prefix}${stringDone}" />
-<c:url var="lastUrl" value="/notes/list?p=${totalPages}${prefix}${stringDone}" />
-<c:url var="prevUrl" value="/notes/list?p=${currentIndex - 1}${prefix}${stringDone}" />
-<c:url var="nextUrl" value="/notes/list?p=${currentIndex + 1}${prefix}${stringDone}" />
+<c:url var="firstUrl" value="/notes/list?p=1${stringDone}${stringSort}" />
+<c:url var="lastUrl" value="/notes/list?p=${totalPages}${stringDone}${stringSort}" />
+<c:url var="prevUrl" value="/notes/list?p=${currentIndex - 1}${stringDone}${stringSort}" />
+<c:url var="nextUrl" value="/notes/list?p=${currentIndex + 1}${stringDone}${stringSort}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,18 +24,26 @@
 <ol>
     <c:if test="${empty stringDone}">
         <li><strong>Все заметки</strong></li>
-        <li><a href="<c:url value="/notes/list?done=true"/>">Выполненные</a></li>
-        <li><a href="<c:url value="/notes/list?done=false"/>">Невыполненные</a></li>
+        <li><a href="<c:url value="/notes/list?done=true${stringSort}"/>">Выполненные</a></li>
+        <li><a href="<c:url value="/notes/list?done=false${stringSort}"/>">Невыполненные</a></li>
     </c:if>
     <c:if test="${!empty stringDone}"><li><a href="<c:url value="/notes/list"/>">Все заметки</a></li>
-    <c:if test="${stringDone == 'true'}">
-        <li><strong>Выполненные</strong></li>
-        <li><a href="<c:url value="/notes/list?done=false"/>">Невыполненные</a></li>
-    </c:if>
-        <c:if test="${stringDone == 'false'}">
-            <li><a href="<c:url value="/notes/list?done=true"/>">Выполненные</a></li>
+        <c:if test="${done == 'true'}">
+            <li><strong>Выполненные</strong></li>
+            <li><a href="<c:url value="/notes/list?done=false${stringSort}"/>">Невыполненные</a></li>
+        </c:if>
+        <c:if test="${done == 'false'}">
+            <li><a href="<c:url value="/notes/list?done=true${stringSort}"/>">Выполненные</a></li>
             <li><strong>Невыполненные</strong></li>
         </c:if>
+    </c:if>
+    <c:if test="${sort == 'false'}">
+        <li><strong>Сначала новые</strong></li>
+        <li><a href="<c:url value="/notes/list?sort=true${stringDone}"/>">Сначала старые</a></li>
+    </c:if>
+    <c:if test="${sort == 'true'}">
+        <li><a href="<c:url value="/notes/list?sort=false${stringDone}"/>">Сначала новые</a></li>
+        <li><strong>Сначала старые</strong></li>
     </c:if>
 </ol>
 <ul>
@@ -58,7 +68,7 @@
         </c:otherwise>
     </c:choose>
     <c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-        <c:url var="pageUrl" value="/notes/list?p=${i}${prefix}${stringDone}" />
+        <c:url var="pageUrl" value="/notes/list?p=${i}${stringDone}${stringSort}" />
         <c:choose>
             <c:when test="${i == currentIndex}">
                 <li><a href="${pageUrl}" style="background-color: black;"><c:out value="${i}" /></a></li>

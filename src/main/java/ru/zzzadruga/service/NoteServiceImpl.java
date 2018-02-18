@@ -21,13 +21,20 @@ public class NoteServiceImpl implements NoteService {
 
     public void remove(long id) { noteRepository.delete(id); }
 
-    public Page<Note> getPage(int pageNumber, Boolean done) {
+    public Page<Note> getPage(int pageNumber, Boolean done, boolean sort) {
         PageRequest request = new PageRequest(pageNumber, PAGESIZE);
-        Page<Note> page = (done == null ?
-                noteRepository.findAll(request) :
-                (done ?
-                        noteRepository.findNoteByDoneIsTrue(request) :
-                        noteRepository.findNoteByDoneIsFalse(request)));
+        Page<Note> page;
+        if (done == null){
+            page = (sort ? noteRepository.findAllByOrderByCreatedDateAsc(request) :
+                           noteRepository.findAllByOrderByCreatedDateDesc(request));
+        }
+        else{
+            page = (done ? (sort ? noteRepository.findNoteByDoneIsTrueOrderByCreatedDateAsc(request) :
+                            noteRepository.findNoteByDoneIsTrueOrderByCreatedDateDesc(request)) :
+                    (sort ? noteRepository.findNoteByDoneIsFalseOrderByCreatedDateAsc(request) :
+                            noteRepository.findNoteByDoneIsFalseOrderByCreatedDateDesc(request))
+            );
+        }
         return page;
     }
 }

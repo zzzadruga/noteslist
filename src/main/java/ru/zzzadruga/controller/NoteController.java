@@ -23,9 +23,10 @@ public class NoteController {
     @RequestMapping(value = {"/", "/list"}, method = RequestMethod.GET)
     public String notesList(@RequestParam(name = "p", defaultValue = "1") int pageNumber,
                             @RequestParam(name = "done", defaultValue = "") String stringDone,
+                            @RequestParam(name = "sort", defaultValue = "false") boolean sort,
                             Model model){
         Boolean done = stringDone.isEmpty() ? null : stringDone.equals("true");
-        Page<Note> page = noteService.getPage(pageNumber - 1, done);
+        Page<Note> page = noteService.getPage(pageNumber - 1, done, sort);
         int current = page.getNumber() + 1;
         int begin = Math.max(1, current - 5);
         int end = Math.min(begin + 10, page.getTotalPages());
@@ -34,7 +35,8 @@ public class NoteController {
         model.addAttribute("endIndex", end);
         model.addAttribute("currentIndex", current);
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("stringDone", stringDone);
+        model.addAttribute("done", stringDone);
+        model.addAttribute("sort", sort);
         model.addAttribute("notesList", page.getContent());
         return "notes";
     }
