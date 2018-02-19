@@ -41,8 +41,13 @@ public class NoteController {
         return "notes";
     }
     @RequestMapping(value = "/edit/{id}")
-    public String editBook(@PathVariable("id") int id, Model model) {
+    public String editNote(@PathVariable("id") int id, Model model) {
         model.addAttribute("noteModel", noteService.getNoteById(id));
+        return "edit";
+    }
+    @RequestMapping(value = "/new")
+    public String createNote(Model model) {
+        model.addAttribute("noteModel", new Note());
         return "edit";
     }
     @RequestMapping(value = "/addNote", method = RequestMethod.POST)

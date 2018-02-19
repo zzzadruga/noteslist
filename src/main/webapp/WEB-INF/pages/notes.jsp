@@ -22,6 +22,7 @@
 </head>
 <body>
 <ol>
+    <li><a href="<c:url value="/notes/new"/>"><font color="#ffc"><strong>Новая заметка</strong></font></a></li>
     <c:if test="${empty stringDone}">
         <li><strong>Все заметки</strong></li>
         <li><a href="<c:url value="/notes/list?done=true${stringSort}"/>">Выполненные</a></li>
@@ -50,8 +51,18 @@
     <c:forEach var="note" items="${notesList}">
     <li>
         <a href="<c:url value='/notes/edit/${note.id}'/>">
-            <h2>${note.title}</h2>
-            <p>${note.text}</p>
+            <h2>
+                <c:if test="${note.title.length() < 11}">${note.title}</c:if>
+                <c:if test="${note.title.length() > 10}">${note.title.substring(0, 10)}...</c:if>
+            </h2>
+            <c:if test="${note.done}"><p><s>
+                <c:if test="${note.text.length() < 20}">${note.text}</c:if>
+                <c:if test="${note.text.length() > 19}">${note.text.substring(0, 20)}...</c:if>
+            </s></p></c:if>
+            <c:if test="${!note.done}"><p>
+                <c:if test="${note.text.length() < 20}">${note.text}</c:if>
+                <c:if test="${note.text.length() > 19}">${note.text.substring(0, 20)}...</c:if>
+            </p></c:if>
         </a>
     </li>
     </c:forEach>

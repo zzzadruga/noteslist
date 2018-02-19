@@ -10,7 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-    <title>Редактировать заметку</title>
+    <title><c:if test="${noteModel.id == 0}">Добаваить</c:if><c:if test="${noteModel.id != 0}">Редактировать</c:if> заметку</title>
     <link rel="stylesheet" media="screen" href="<c:url value='/resources/css/edit.css'/>" />
 </head>
 <body>
@@ -18,30 +18,33 @@
     <form:input path="id" placeholder="ID" type="hidden"/>
     <ul>
         <li>
-            <h2>Редактировать заметку</h2>
+            <h2><c:if test="${noteModel.id == 0}">Добавить</c:if><c:if test="${noteModel.id != 0}">Редактировать</c:if> заметку</h2>
         </li>
         <li>
             <label for="name">Заголовок:</label>
             <form:input path="title" type="text" placeholder="Название" id="name" />
         </li><li>
         <form:input path="id" placeholder="ID" type="hidden"/>
-        <label for="done">Статус:</label>
-        <form:checkbox path="done" placeholder="Название" id="done" />
-        <c:if test="${noteModel.done}">Выполнено</c:if><c:if test="${!noteModel.done}">Невыполнено</c:if>
+        <c:if test="${noteModel.id != 0}">
+            <label for="done">Статус:</label>
+            <form:checkbox path="done" placeholder="Название" id="done" />
+            <c:if test="${noteModel.done}">Выполнено</c:if><c:if test="${!noteModel.done}">Не выполнено</c:if>
+        </c:if>
     </li>
-
-        <li>
-            <label for="date">Дата:</label>
-            <form:input path="createdDate" type="text" name="date" placeholder="Дата" id="date" />
-            <span class="form_hint">Формат "дд-мм-гггг чч:мм:сс"</span>
-        </li>
+        <c:if test="${noteModel.id != 0}">
+            <li>
+                <label for="date">Дата:</label>
+                <form:input path="createdDate" type="text" name="date" placeholder="Дата" id="date" />
+                <span class="form_hint">Формат "дд-мм-гггг чч:мм:сс"</span>
+            </li>
+        </c:if>
         <li>
             <label for="text">Заметка:</label>
             <form:textarea path="text" name="text" cols="40" rows="6" id="text" />
         </li>
 
         <li>
-            <button class="submit" type="submit">Обновить</button>
+            <button class="submit" type="submit">Сохранить</button>
         </li>
     </ul>
 </form:form>
