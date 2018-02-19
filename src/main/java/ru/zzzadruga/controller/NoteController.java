@@ -45,6 +45,11 @@ public class NoteController {
         model.addAttribute("noteModel", noteService.getNoteById(id));
         return "edit";
     }
+    @RequestMapping(value = "/remove/{id}")
+    public String removeNote(@PathVariable("id") int id, Model model) {
+        noteService.remove(id);
+        return "redirect:/notes/list";
+    }
     @RequestMapping(value = "/new")
     public String createNote(Model model) {
         model.addAttribute("noteModel", new Note());

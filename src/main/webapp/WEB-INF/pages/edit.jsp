@@ -49,5 +49,8 @@
         </li>
     </ul>
 </form:form>
+<form class="contact_form" action="${pageContext.request.contextPath}/remove/${noteModel.id}" method="get" name="contact_form">
+    <ul><li><button class="remove" type="submit">Удалить</button></li></ul>
+</form>
 </body>
 </html>
